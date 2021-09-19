@@ -7,7 +7,7 @@ using Rocket.Unturned.Player;
 
 namespace PentaKillSound
 {
-    public class Geimer : UnturnedPlayerComponent
+    public class Data : UnturnedPlayerComponent
     {
         public int kill = 0;
     }

@@ -17,10 +17,10 @@ using Rocket.Unturned.Chat;
 
 namespace PentaKillSound
 {
-    public class Class1 : RocketPlugin
+    public class PentaKillSound : RocketPlugin
     {
         public static UnturnedPlayer asesino;
-        public static Class1 Instance;
+        public static PentaKillSound Instance;
         protected override void Load()
         {
             Instance = this;
@@ -32,31 +32,22 @@ namespace PentaKillSound
         {
 
             asesino = UnturnedPlayer.FromCSteamID(murderer);
-            UnturnedPlayer ss = asesino;
-            Geimer valor = ss.GetComponent<Geimer>();
+            Data objAsesino = asesino.GetComponent<Data>();
+            Data objPlayer = player.GetComponent<Data>();
 
-
-            if (cause.ToString() == "GUN" || cause.ToString() == "MELEE")
+            if(cause.ToString() == "GUN" || cause.ToString() == "MELEE" || cause.ToString() == "PUNCH")
             {
-
-                Geimer wipe = player.GetComponent<Geimer>();
-                wipe.kill = 0;
-
-                if (valor.kill == 5 & valor.kill < 10)
+                objPlayer.kill = 0; objAsesino.kill++;
+                if (objAsesino.kill == 5)
                 {
                     EffectManager.sendEffect(12780, 50, asesino.Position);
-                    valor.kill++;
-                    ChatManager.serverSendMessage(Translate("pentakill1", asesino.CharacterName).Replace('(', '<').Replace(')', '>'), Color.white, null, null, EChatMode.SAY, null, true); return;
+                    ChatManager.serverSendMessage(Translate("pentakill1", asesino.CharacterName).Replace('(', '<').Replace(')', '>'), Color.white, null, null, EChatMode.SAY, null, true);
                 }
-                else if(valor.kill > 10)
+                else if(objAsesino.kill == 10)
                 {
                     EffectManager.sendEffect(12781, 90, asesino.Position);
-                    valor.kill = 1;
-                    ChatManager.serverSendMessage(Translate("pentakill2", asesino.CharacterName).Replace('(', '<').Replace(')', '>'), Color.white, null, null, EChatMode.SAY, null, true); return;
-                }
-                else
-                {
-                    valor.kill++;
+                    objAsesino.kill = 0;
+                    ChatManager.serverSendMessage(Translate("pentakill2", asesino.CharacterName).Replace('(', '<').Replace(')', '>'), Color.white, null, null, EChatMode.SAY, null, true);
                 }
             }
         }
